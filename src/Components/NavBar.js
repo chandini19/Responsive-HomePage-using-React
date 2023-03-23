@@ -1,12 +1,15 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import Button from "./Button";
-import './NavBar.css';
+import React, { useState, useEffect } from 'react';
+import { Button } from './Button';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
-function NavBar() {
+function Navbar() {
   const [click, setClick] = useState(false);
   const [button, setButton] = useState(true);
-  const closeMobMenu = () => setClick(false);
+
+  const handleClick = () => setClick(!click);
+  const closeMobileMenu = () => setClick(false);
+
   const showButton = () => {
     if (window.innerWidth <= 960) {
       setButton(false);
@@ -15,66 +18,63 @@ function NavBar() {
     }
   };
 
-  window.addEventListener("resize", showButton);
+  useEffect(() => {
+    showButton();
+  }, []);
+
+  window.addEventListener('resize', showButton);
+
   return (
     <>
-      <nav className="navbar">
-        <div className="navbar-container">
-          <Link to="/" className="navbar-logo">
-            TRVL{" "}
-            <img
-              style={{ marginLeft: " 0.5rem", fontSize: "1.8rem" }}
-              src="./images/icons8-beach-24.png"
-              alt="logo"
-            ></img>
+      <nav className='navbar'>
+        <div className='navbar-container'>
+          <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            TRVL
+            <i class='fab fa-typo3' />
           </Link>
-          <div
-            className="menu-icon"
-            onClick={() => {
-              setClick(!click);
-            }}
-          >
-            {/* <img
-              alt="hamburgermenu"
-              src={
-                click
-                  ? "./images/icons8-double-right-25.png"
-                  : "./images/icons8-menu-50.png"
-              }
-              width="25px"
-              height="25px"
-             
-
-            /> */}
-             <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
+          <div className='menu-icon' onClick={handleClick}>
+            <i className={click ? 'fas fa-times' : 'fas fa-bars'} />
           </div>
-          <ul className={click ? "nav-menu active" : "nav-menu"}>
-            <li className="nav-item">
-              <Link to="/" className="nav-links" onClick={closeMobMenu}>
+          <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+            <li className='nav-item'>
+              <Link to='/' className='nav-links' onClick={closeMobileMenu}>
                 Home
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/Services" className="nav-links" onClick={closeMobMenu}>
+            <li className='nav-item'>
+              <Link
+                to='/services'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
                 Services
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/Products" className="nav-links" onClick={closeMobMenu}>
+            <li className='nav-item'>
+              <Link
+                to='/products'
+                className='nav-links'
+                onClick={closeMobileMenu}
+              >
                 Products
               </Link>
             </li>
-            <li className="nav-item">
-              <Link to="/sign-up" className="nav-links" onClick={closeMobMenu}>
+
+            <li>
+              <Link
+                to='/sign-up'
+                className='nav-links-mobile'
+                onClick={closeMobileMenu}
+              >
                 Sign Up
               </Link>
             </li>
           </ul>
-          {button && <Button buttonStyle="btn--outline">Sign Up </Button>}
+          {button && <Button buttonStyle='btn--outline'>SIGN UP</Button>}
         </div>
       </nav>
     </>
   );
 }
 
-export default NavBar;
+export default Navbar;
